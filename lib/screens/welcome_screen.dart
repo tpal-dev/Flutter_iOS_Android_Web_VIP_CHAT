@@ -1,8 +1,10 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:vip_chat_app/widgets/anime_button.dart';
+import 'package:vip_chat_app/widgets/animated_button.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:vip_chat_app/widgets/animated_icon_button.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static String id = 'welcome_screen';
@@ -15,7 +17,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget getLogo() {
     if (kIsWeb) {
       return Padding(
-        padding: const EdgeInsets.only(top: 5.0, bottom: 40.0),
+        padding: const EdgeInsets.only(top: 5.0, bottom: 10.0),
         child: TypewriterAnimatedTextKit(
           repeatForever: false,
           speed: Duration(milliseconds: 70),
@@ -72,8 +74,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  width: 60,
-                  height: 60,
+                  width: 60.0,
+                  height: 60.0,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('images/logo.png'),
@@ -82,9 +84,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ),
                 ),
                 getLogo(),
+                SizedBox(
+                  height: 40.0,
+                ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: AnimePressButton(
+                  child: AnimatedButton(
                     duration: Duration(milliseconds: 60),
                     borderRadius: BorderRadius.circular(100),
                     color: Colors.red,
@@ -102,7 +107,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: AnimePressButton(
+                  child: AnimatedButton(
                     duration: Duration(milliseconds: 60),
                     borderRadius: BorderRadius.circular(100),
                     color: Colors.red,

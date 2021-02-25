@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
-class AnimePressButton extends StatefulWidget {
+class AnimatedButton extends StatefulWidget {
   final Function onTap;
   final String title;
   final Duration duration;
   //final Curve curve;
-  final double size;
   final BorderRadius borderRadius;
   final List<Shadow> boxShadow;
   final Color color;
@@ -17,13 +16,14 @@ class AnimePressButton extends StatefulWidget {
   final double titleSize;
   final FontWeight fontWeight;
   final String fontFamily;
+  final double height;
+  final double width;
 
-  AnimePressButton({
+  AnimatedButton({
     @required this.onTap,
     @required this.title,
     this.duration,
     //this.curve,
-    this.size,
     this.borderRadius,
     this.boxShadow,
     this.color,
@@ -35,12 +35,14 @@ class AnimePressButton extends StatefulWidget {
     this.titleSize,
     this.fontWeight,
     this.fontFamily,
+    this.height,
+    this.width,
   });
   @override
-  _AnimePressButtonState createState() => _AnimePressButtonState();
+  _AnimatedButtonState createState() => _AnimatedButtonState();
 }
 
-class _AnimePressButtonState extends State<AnimePressButton>
+class _AnimatedButtonState extends State<AnimatedButton>
     with SingleTickerProviderStateMixin {
   double _scale;
   AnimationController _animationController;
@@ -92,8 +94,8 @@ class _AnimePressButtonState extends State<AnimePressButton>
 
   Widget buttonBody() {
     return Container(
-      height: (widget.size != null) ? widget.size / 2.3 : 70,
-      width: (widget.size != null) ? widget.size : 200,
+      height: (widget.height != null) ? widget.height : 70,
+      width: (widget.width != null) ? widget.width : 200,
 
       ///
       decoration: boxDecoration(),
