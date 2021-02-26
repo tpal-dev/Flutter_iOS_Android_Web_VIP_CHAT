@@ -30,11 +30,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           textStyle: TextStyle(fontSize: 40.0, fontFamily: 'BungeeShade'),
           textAlign: TextAlign.start,
         ),
-        // child: Text('CHAT',
-        //     style: TextStyle(
-        //         fontSize: 50.0,
-        //         fontFamily: 'BungeeShade',
-        //         color: Colors.black)),
       );
     } else {
       return ColorizeAnimatedTextKit(

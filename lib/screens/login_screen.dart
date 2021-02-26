@@ -29,14 +29,24 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                height: 200.0,
+                height: 70.0,
                 child: Image.asset('images/logo.png'),
               ),
               SizedBox(
-                height: 30.0,
+                height: 35.0,
               ),
               Container(
                 constraints: BoxConstraints(maxWidth: 400.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black54,
+                      blurRadius: 12.0,
+                      offset: Offset(0.0, 5.0),
+                    ),
+                  ],
+                ),
                 child: TextField(
                   onChanged: (value) {
                     //user input.
@@ -45,18 +55,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: Colors.black,
                   ),
                   decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
                     hintText: 'Enter your email',
                     hintStyle: TextStyle(
                       color: Colors.black45,
                     ),
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                    ),
                     enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.lightBlueAccent, width: 1.0),
+                      borderSide: BorderSide(color: Colors.white, width: 0.0),
                       borderRadius: BorderRadius.all(Radius.circular(32.0)),
                     ),
                     focusedBorder: OutlineInputBorder(
@@ -68,10 +76,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(
-                height: 8.0,
+                height: 15.0,
               ),
               Container(
                 constraints: BoxConstraints(maxWidth: 400.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black54,
+                      blurRadius: 12.0,
+                      offset: Offset(0.0, 5.0),
+                    ),
+                  ],
+                ),
                 child: TextField(
                   onChanged: (value) {
                     //user input.
@@ -80,18 +98,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: Colors.black,
                   ),
                   decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
                     hintText: 'Enter your password',
                     hintStyle: TextStyle(
                       color: Colors.black45,
                     ),
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                    ),
                     enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.lightBlueAccent, width: 1.0),
+                      borderSide: BorderSide(color: Colors.white, width: 0.0),
                       borderRadius: BorderRadius.all(Radius.circular(32.0)),
                     ),
                     focusedBorder: OutlineInputBorder(
@@ -103,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(
-                height: 24.0,
+                height: 35.0,
               ),
               AnimatedButton(
                 width: 200.0,
@@ -146,6 +162,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 titleColor: Colors.black,
                 fontFamily: 'SourceSansPro',
                 fontWeight: FontWeight.bold,
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              RawMaterialButton(
+                textStyle: TextStyle(
+                  color: Colors.blue,
+                ),
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onPressed: () {},
+                child: Text('Forgot password?'),
               ),
             ],
           ),
