@@ -1,10 +1,11 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vip_chat_app/constants.dart';
+import 'package:vip_chat_app/widgets/customized_big_animated_button.dart';
+import 'package:vip_chat_app/widgets/customized_text_button.dart';
 import 'package:vip_chat_app/widgets/animated_button.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:vip_chat_app/widgets/animated_icon_button.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static String id = 'welcome_screen';
@@ -27,7 +28,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             '  PRIVATE',
             '  CHAT',
           ],
-          textStyle: TextStyle(fontSize: 40.0, fontFamily: 'BungeeShade'),
+          textStyle: TextStyle(
+            fontSize: 40.0,
+            fontFamily: kFontBungeeShade,
+            fontWeight: FontWeight.bold,
+          ),
           textAlign: TextAlign.start,
         ),
       );
@@ -37,7 +42,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         speed: Duration(milliseconds: 100),
         pause: Duration(milliseconds: 200),
         text: ['YOURS', 'PRIVATE', 'CHAT'],
-        textStyle: TextStyle(fontSize: 50.0, fontFamily: 'BungeeShade'),
+        textStyle: TextStyle(
+          fontSize: 50.0,
+          fontFamily: 'BungeeShade',
+          fontWeight: FontWeight.bold,
+        ),
         colors: [
           Colors.black,
           Colors.black,
@@ -56,12 +65,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       backgroundColor: Colors.black,
       body: Container(
         width: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [Colors.blue, Colors.white, Colors.red]),
-        ),
+        decoration: kBodyBackgroundContainerDecoration,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           child: Center(
@@ -82,41 +86,30 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 SizedBox(
                   height: 40.0,
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: AnimatedButton(
-                    duration: Duration(milliseconds: 60),
-                    borderRadius: BorderRadius.circular(100),
-                    color: Colors.red,
-                    onTap: () {},
-                    wGradient: true,
-                    gradientColors: [
-                      Colors.pink,
-                      Colors.purpleAccent,
-                    ],
-                    title: "Log In",
-                    titleColor: Colors.black,
-                    fontFamily: 'SourceSansPro',
-                    fontWeight: FontWeight.bold,
-                  ),
+                CustomizedBigAnimatedButton(
+                  title: 'Log In',
+                  onTap: () {},
+                  gradientColors: [
+                    Colors.pink,
+                    Colors.purpleAccent,
+                  ],
+                ),
+                CustomizedBigAnimatedButton(
+                  title: 'Register',
+                  onTap: () {},
+                  gradientColors: [
+                    Colors.deepPurpleAccent,
+                    Colors.teal,
+                  ],
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: AnimatedButton(
-                    duration: Duration(milliseconds: 60),
-                    borderRadius: BorderRadius.circular(100),
-                    color: Colors.red,
-                    onTap: () {},
-                    wGradient: true,
-                    gradientColors: [
-                      Colors.deepPurpleAccent,
-                      Colors.teal,
-                    ],
-                    title: "Register",
-                    titleColor: Colors.black,
-                    fontFamily: 'SourceSansPro',
-                    fontWeight: FontWeight.bold,
-                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Text('or'),
+                ),
+                CustomizedTextButton(
+                  title: 'Try Demo Mode',
+                  onPressed: () {},
+                  fontFamily: kFontSourceSansProBold,
                 ),
               ],
             ),

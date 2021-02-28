@@ -54,6 +54,10 @@ flutter:
     fonts:
     - asset: fonts/BungeeShade-Regular.ttf
 
-  - family: SourceSansPro
+  - family: SourceSansProRegular
     fonts:
     - asset: fonts/SourceSansPro-Regular.ttf
+
+  - family: SourceSansProBold
+    fonts:
+    - asset: fonts/SourceSansPro-Bold.ttf

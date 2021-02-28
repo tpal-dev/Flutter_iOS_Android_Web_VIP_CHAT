@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class AnimatedButton extends StatefulWidget {
   final Function onTap;
@@ -93,23 +94,27 @@ class _AnimatedButtonState extends State<AnimatedButton>
   }
 
   Widget buttonBody() {
-    return Container(
-      height: (widget.height != null) ? widget.height : 70,
-      width: (widget.width != null) ? widget.width : 200,
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: Container(
+        height: (widget.height != null) ? widget.height : 70,
+        width: (widget.width != null) ? widget.width : 200,
 
-      ///
-      decoration: boxDecoration(),
-      child: Center(
-        child: Text(
-          (widget.title != null) ? widget.title : "anime button",
-          style: TextStyle(
-            fontFamily: widget.fontFamily,
-            fontSize: (widget.titleSize != null) ? widget.titleSize : 20,
-            fontWeight: (widget.fontWeight != null)
-                ? widget.fontWeight
-                : FontWeight.w500,
-            color:
-                (widget.titleColor != null) ? widget.titleColor : Colors.black,
+        ///
+        decoration: boxDecoration(),
+        child: Center(
+          child: Text(
+            (widget.title != null) ? widget.title : "animated button",
+            style: TextStyle(
+              fontFamily: widget.fontFamily,
+              fontSize: (widget.titleSize != null) ? widget.titleSize : 20,
+              fontWeight: (widget.fontWeight != null)
+                  ? widget.fontWeight
+                  : FontWeight.w500,
+              color: (widget.titleColor != null)
+                  ? widget.titleColor
+                  : Colors.black,
+            ),
           ),
         ),
       ),
