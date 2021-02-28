@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
-                    hintText: 'Enter your email',
+                    hintText: 'Enter your e-mail',
                     hintStyle: TextStyle(
                       color: Colors.black45,
                     ),
