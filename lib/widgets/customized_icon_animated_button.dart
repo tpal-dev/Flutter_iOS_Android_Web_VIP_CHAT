@@ -33,7 +33,8 @@ class CustomizedIconAnimatedButton extends StatelessWidget {
         gradientColors: gradientColors,
         title: title,
         titleColor: Colors.black,
-        fontFamily: kFontSourceSansProRegular,
+        fontFamily: kFontSourceSansPro,
+        fontWeight: FontWeight.w600,
       ),
     );
   }

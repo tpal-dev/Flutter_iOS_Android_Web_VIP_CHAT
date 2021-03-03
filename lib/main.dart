@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
           bodyText2: TextStyle(
               color: Colors.black54,
               fontSize: 18,
-              fontFamily: kFontSourceSansProRegular),
+              fontFamily: kFontSourceSansPro,
+              fontWeight: FontWeight.normal),
         ),
       ),
       initialRoute: WelcomeScreen.id,

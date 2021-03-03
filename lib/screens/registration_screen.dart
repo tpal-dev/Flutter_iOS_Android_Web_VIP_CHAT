@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vip_chat_app/constants.dart';
-import 'package:vip_chat_app/widgets/animated_icon_button.dart';
 import 'package:vip_chat_app/widgets/customized_icon_animated_button.dart';
 import 'package:vip_chat_app/widgets/customized_medium_animated_button.dart';
 import 'package:vip_chat_app/widgets/customized_white_textfield.dart';
@@ -26,9 +25,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
-                height: 70.0,
-                child: Image.asset('images/logo.png'),
+              Hero(
+                tag: 'logo',
+                child: Container(
+                  height: 70.0,
+                  child: Image.asset('images/logo.png'),
+                ),
               ),
               SizedBox(
                 height: 35.0,

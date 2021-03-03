@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
-const kFontSourceSansProRegular = 'SourceSansProRegular';
-const kFontSourceSansProBold = 'SourceSansProBold';
+const kFontSourceSansPro = 'SourceSansPro';
 const kFontBungeeShade = 'BungeeShade';
 
 const kSendButtonTextStyle = TextStyle(
   color: Colors.lightBlueAccent,
+  fontFamily: kFontSourceSansPro,
   fontWeight: FontWeight.bold,
   fontSize: 18.0,
-  fontFamily: kFontSourceSansProBold,
 );
 
 const kMessageTextFieldDecoration = InputDecoration(
@@ -27,6 +26,13 @@ const kBodyBackgroundContainerDecoration = BoxDecoration(
   gradient: LinearGradient(
       begin: Alignment.topRight,
       end: Alignment.bottomLeft,
+      colors: [Colors.blue, Colors.white, Colors.red]),
+);
+
+const kBodyBackgroundContainerDecorationReverse = BoxDecoration(
+  gradient: LinearGradient(
+      begin: Alignment.bottomLeft,
+      end: Alignment.topRight,
       colors: [Colors.blue, Colors.white, Colors.red]),
 );
 

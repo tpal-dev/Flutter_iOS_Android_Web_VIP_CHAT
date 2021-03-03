@@ -43,7 +43,10 @@ class _ChatScreenState extends State<ChatScreen> {
                 children: <Widget>[
                   Expanded(
                     child: TextField(
-                      style: TextStyle(fontFamily: kFontSourceSansProRegular),
+                      style: TextStyle(
+                        fontFamily: kFontSourceSansPro,
+                        fontWeight: FontWeight.normal,
+                      ),
                       onChanged: (value) {
                         //user input.
                       },

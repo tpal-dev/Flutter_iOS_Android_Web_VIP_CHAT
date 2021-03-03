@@ -26,7 +26,8 @@ class CustomizedBigAnimatedButton extends StatelessWidget {
         wGradient: true,
         gradientColors: gradientColors,
         titleColor: (titleColor != null) ? titleColor : Colors.black,
-        fontFamily: kFontSourceSansProRegular,
+        fontFamily: kFontSourceSansPro,
+        fontWeight: FontWeight.w600,
       ),
     );
   }

@@ -36,7 +36,8 @@ class CustomizedWhiteTextField extends StatelessWidget {
             fillColor: Colors.white,
             hintText: hintText,
             hintStyle: TextStyle(
-              fontFamily: kFontSourceSansProRegular,
+              fontFamily: kFontSourceSansPro,
+              fontWeight: FontWeight.normal,
               color: Colors.black45,
             ),
             contentPadding:

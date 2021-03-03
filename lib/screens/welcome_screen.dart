@@ -2,7 +2,6 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vip_chat_app/constants.dart';
-import 'package:vip_chat_app/widgets/animated_button.dart';
 import 'package:vip_chat_app/widgets/customized_big_animated_button.dart';
 import 'package:vip_chat_app/widgets/customized_text_button.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -16,15 +15,48 @@ class WelcomeScreen extends StatefulWidget {
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class _WelcomeScreenState extends State<WelcomeScreen>
+    with SingleTickerProviderStateMixin {
+  AnimationController controller;
+  Animation animation;
+  Animation curvedAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = AnimationController(
+      duration: Duration(seconds: 2),
+      vsync: this,
+    );
+
+    curvedAnimation =
+        CurvedAnimation(parent: controller, curve: Curves.easeInQuad);
+    animation = DecorationTween(
+            begin: kBodyBackgroundContainerDecorationReverse,
+            end: kBodyBackgroundContainerDecoration)
+        .animate(controller);
+
+    controller.forward();
+    controller.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   Widget getLogo() {
     if (kIsWeb) {
       return Padding(
         padding: const EdgeInsets.only(top: 5.0, bottom: 10.0),
         child: TypewriterAnimatedTextKit(
           repeatForever: false,
-          speed: Duration(milliseconds: 70),
-          totalRepeatCount: 2,
+          speed: Duration(milliseconds: 110),
+          totalRepeatCount: 1,
           text: [
             ' YOURS',
             '  PRIVATE',
@@ -40,9 +72,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       );
     } else {
       return ColorizeAnimatedTextKit(
-        totalRepeatCount: 2,
-        speed: Duration(milliseconds: 100),
-        pause: Duration(milliseconds: 200),
+        totalRepeatCount: 1,
+        speed: Duration(milliseconds: 250),
+        // pause: Duration(milliseconds: 300),
         text: ['YOURS', 'PRIVATE', 'CHAT'],
         textStyle: TextStyle(
           fontSize: 50.0,
@@ -67,20 +99,23 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       backgroundColor: Colors.black,
       body: Container(
         width: double.infinity,
-        decoration: kBodyBackgroundContainerDecoration,
+        decoration: animation.value,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  width: 60.0,
-                  height: 60.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('images/logo.png'),
-                      fit: BoxFit.cover,
+                Hero(
+                  tag: 'logo',
+                  child: Container(
+                    width: curvedAnimation.value * 70.0,
+                    height: curvedAnimation.value * 70.0,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('images/logo.png'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -117,7 +152,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   onPressed: () {
                     print('demo button pressed');
                   },
-                  fontFamily: kFontSourceSansProBold,
+                  fontFamily: kFontSourceSansPro,
+                  fontWeight: FontWeight.bold,
                 ),
               ],
             ),
