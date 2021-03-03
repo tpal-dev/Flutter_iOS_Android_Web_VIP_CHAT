@@ -2,13 +2,15 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vip_chat_app/constants.dart';
+import 'package:vip_chat_app/widgets/animated_button.dart';
 import 'package:vip_chat_app/widgets/customized_big_animated_button.dart';
 import 'package:vip_chat_app/widgets/customized_text_button.dart';
-import 'package:vip_chat_app/widgets/animated_button.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:vip_chat_app/screens/login_screen.dart';
+import 'package:vip_chat_app/screens/registration_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
-  static String id = 'welcome_screen';
+  static const String id = 'welcome_screen';
 
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
@@ -88,7 +90,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
                 CustomizedBigAnimatedButton(
                   title: 'Log In',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, LoginScreen.id);
+                  },
                   gradientColors: [
                     Colors.pink,
                     Colors.purpleAccent,
@@ -96,7 +100,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
                 CustomizedBigAnimatedButton(
                   title: 'Register',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, RegistrationScreen.id);
+                  },
                   gradientColors: [
                     Colors.deepPurpleAccent,
                     Colors.teal,
@@ -108,7 +114,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
                 CustomizedTextButton(
                   title: 'Try Demo Mode',
-                  onPressed: () {},
+                  onPressed: () {
+                    print('demo button pressed');
+                  },
                   fontFamily: kFontSourceSansProBold,
                 ),
               ],

@@ -77,6 +77,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
   Widget build(BuildContext context) {
     _scale = 1 - _animationController.value;
     return GestureDetector(
+      onTap: widget.onTap,
       onTapDown: (details) {
         _animationController.forward();
       },

@@ -8,7 +8,7 @@ import 'package:vip_chat_app/widgets/customized_text_button.dart';
 import 'package:vip_chat_app/widgets/customized_white_textfield.dart';
 
 class LoginScreen extends StatefulWidget {
-  static String id = 'login_screen';
+  static const String id = 'login_screen';
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
