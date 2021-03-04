@@ -14,7 +14,7 @@ class CustomizedTextButton extends StatelessWidget {
   final Function onPressed;
   final String fontFamily;
   final FontWeight fontWeight;
-  final int fontSize;
+  final double fontSize;
   final Color color;
 
   @override

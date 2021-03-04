@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
         textTheme: TextTheme(
           bodyText2: TextStyle(
               color: Colors.black54,
-              fontSize: 18,
-              fontFamily: kFontSourceSansPro,
+              fontSize: 14,
+              // fontFamily: kFontSourceSansPro,
               fontWeight: FontWeight.normal),
         ),
       ),

@@ -29,14 +29,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       duration: Duration(seconds: 2),
       vsync: this,
     );
-
     curvedAnimation =
         CurvedAnimation(parent: controller, curve: Curves.easeInQuad);
     animation = DecorationTween(
             begin: kBodyBackgroundContainerDecorationReverse,
             end: kBodyBackgroundContainerDecoration)
         .animate(controller);
-
     controller.forward();
     controller.addListener(() {
       setState(() {});
@@ -59,7 +57,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           totalRepeatCount: 1,
           text: [
             ' YOURS',
-            '  PRIVATE',
+            '  VIP',
             '  CHAT',
           ],
           textStyle: TextStyle(
@@ -75,7 +73,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
         totalRepeatCount: 1,
         speed: Duration(milliseconds: 250),
         // pause: Duration(milliseconds: 300),
-        text: ['YOURS', 'PRIVATE', 'CHAT'],
+        text: ['YOURS', 'VIP', 'CHAT'],
         textStyle: TextStyle(
           fontSize: 50.0,
           fontFamily: 'BungeeShade',
@@ -120,9 +118,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   ),
                 ),
                 getLogo(),
-                SizedBox(
-                  height: 40.0,
-                ),
+                SizedBox(height: 40.0),
                 CustomizedBigAnimatedButton(
                   title: 'Log In',
                   onTap: () {
@@ -145,10 +141,10 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Text('or'),
+                  child: Text('- OR -'),
                 ),
                 CustomizedTextButton(
-                  title: 'Try Demo Mode',
+                  title: 'TRY DEMO MODE',
                   onPressed: () {
                     print('demo button pressed');
                   },

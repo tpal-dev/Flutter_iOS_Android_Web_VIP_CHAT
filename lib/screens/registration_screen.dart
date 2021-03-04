@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vip_chat_app/constants.dart';
+import 'package:vip_chat_app/screens/login_screen.dart';
 import 'package:vip_chat_app/widgets/customized_icon_animated_button.dart';
 import 'package:vip_chat_app/widgets/customized_medium_animated_button.dart';
 import 'package:vip_chat_app/widgets/customized_white_textfield.dart';
@@ -13,6 +15,37 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  Widget _buildSignIpBtn() {
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, LoginScreen.id),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: 'Already have an Account? ',
+                style: TextStyle(
+                  color: Colors.black45,
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              TextSpan(
+                text: 'Sign In',
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,28 +65,42 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   child: Image.asset('images/logo.png'),
                 ),
               ),
-              SizedBox(
-                height: 35.0,
-              ),
+              SizedBox(height: 20.0),
               CustomizedWhiteTextField(
+                icon: Icon(
+                  Icons.person,
+                  color: Colors.black45,
+                ),
                 hintText: 'Enter your nick',
                 onChanged: (value) {},
               ),
               CustomizedWhiteTextField(
+                icon: Icon(
+                  Icons.email,
+                  color: Colors.black45,
+                ),
                 hintText: 'Enter your e-mail',
                 onChanged: (value) {},
               ),
               CustomizedWhiteTextField(
+                icon: Icon(
+                  Icons.lock,
+                  color: Colors.black45,
+                ),
+                obscureText: true,
                 hintText: 'Enter your password',
                 onChanged: (value) {},
               ),
               CustomizedWhiteTextField(
-                hintText: 'Repeat your password',
+                icon: Icon(
+                  Icons.lock_outline,
+                  color: Colors.black45,
+                ),
+                obscureText: true,
+                hintText: 'Confirm your password',
                 onChanged: (value) {},
               ),
-              SizedBox(
-                height: 19.0,
-              ),
+              SizedBox(height: 19.0),
               CustomizedMediumAnimatedButton(
                 title: 'Register',
                 onTap: () {},
@@ -75,6 +122,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   color: Colors.black,
                 ),
               ),
+              SizedBox(height: 50.0),
+              _buildSignIpBtn(),
             ],
           ),
         ),

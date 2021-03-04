@@ -5,15 +5,19 @@ class CustomizedWhiteTextField extends StatelessWidget {
   CustomizedWhiteTextField({
     @required this.hintText,
     @required this.onChanged,
+    this.icon,
+    this.obscureText,
   });
 
   final String hintText;
   final void Function(String) onChanged;
+  final Widget icon;
+  final bool obscureText;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.only(top: 16.0),
       child: Container(
         constraints: BoxConstraints(maxWidth: 400.0),
         decoration: BoxDecoration(
@@ -27,11 +31,13 @@ class CustomizedWhiteTextField extends StatelessWidget {
           ],
         ),
         child: TextField(
+          obscureText: obscureText ?? false,
           onChanged: onChanged,
           style: TextStyle(
             color: Colors.black,
           ),
           decoration: InputDecoration(
+            prefixIcon: icon ?? null,
             filled: true,
             fillColor: Colors.white,
             hintText: hintText,
