@@ -16,37 +16,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool _rememberMe = false;
-
-  Widget _buildRememberMeCheckbox() {
-    return Row(
-      children: <Widget>[
-        Theme(
-          data: ThemeData(
-            unselectedWidgetColor: Colors.black45,
-          ),
-          child: Checkbox(
-            value: _rememberMe,
-            checkColor: Colors.green,
-            activeColor: Colors.white,
-            onChanged: (value) {
-              setState(() {
-                _rememberMe = value;
-              });
-            },
-          ),
-        ),
-        Text(
-          'Remember me',
-          style: TextStyle(
-            fontFamily: kFontSourceSansPro,
-            color: Colors.black45,
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _buildSignUpBtn() {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, RegistrationScreen.id),
@@ -116,25 +85,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 onChanged: (value) {},
               ),
               Container(
+                alignment: Alignment.centerRight,
                 constraints: BoxConstraints(maxWidth: 400.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(top: 25.0),
-                      child: _buildRememberMeCheckbox(),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(right: 10.0),
-                      child: CustomizedTextButton(
-                        title: 'Forgot Password?',
-                        onPressed: () {},
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
+                child: Container(
+                  padding: EdgeInsets.only(right: 10.0),
+                  child: CustomizedTextButton(
+                    title: 'Forgot Password?',
+                    onPressed: () {},
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
               SizedBox(height: 10.0),

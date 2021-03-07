@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "58882026821",
+    "project_id": "vip-chatt",
+    "storage_bucket": "vip-chatt.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:58882026821:android:ce5f65b00994ea178ee22c",
+        "android_client_info": {
+          "package_name": "com.tpal.vip_chat_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "58882026821-4op3hsl771o8ad3mcvuhg91hqn4un2jf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4vrIcpq5tS9m4grLwy0A9qM7jVMsoOew"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "58882026821-4op3hsl771o8ad3mcvuhg91hqn4un2jf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
