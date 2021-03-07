@@ -7,6 +7,7 @@ import 'package:vip_chat_app/widgets/customized_icon_animated_button.dart';
 import 'package:vip_chat_app/widgets/customized_medium_animated_button.dart';
 import 'package:vip_chat_app/widgets/customized_text_button.dart';
 import 'package:vip_chat_app/widgets/customized_white_textfield.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
@@ -68,6 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: 27.0),
               CustomizedWhiteTextField(
+                keyboardType: TextInputType.emailAddress,
                 icon: Icon(
                   Icons.email,
                   color: Colors.black45,

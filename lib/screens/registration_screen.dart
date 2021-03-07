@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vip_chat_app/constants.dart';
+import 'package:vip_chat_app/screens/chat_screen.dart';
 import 'package:vip_chat_app/screens/login_screen.dart';
 import 'package:vip_chat_app/widgets/customized_icon_animated_button.dart';
 import 'package:vip_chat_app/widgets/customized_medium_animated_button.dart';
 import 'package:vip_chat_app/widgets/customized_white_textfield.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const String id = 'registration_screen';
@@ -15,6 +17,10 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  final _auth = FirebaseAuth.instance;
+  String email;
+  String password;
+
   Widget _buildSignIpBtn() {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, LoginScreen.id),
@@ -75,12 +81,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 onChanged: (value) {},
               ),
               CustomizedWhiteTextField(
+                keyboardType: TextInputType.emailAddress,
                 icon: Icon(
                   Icons.email,
                   color: Colors.black45,
                 ),
                 hintText: 'Enter your e-mail',
-                onChanged: (value) {},
+                onChanged: (value) {
+                  email = value;
+                },
               ),
               CustomizedWhiteTextField(
                 icon: Icon(
@@ -89,7 +98,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
                 obscureText: true,
                 hintText: 'Enter your password',
-                onChanged: (value) {},
+                onChanged: (value) {
+                  password = value;
+                },
               ),
               CustomizedWhiteTextField(
                 icon: Icon(
@@ -103,7 +114,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               SizedBox(height: 19.0),
               CustomizedMediumAnimatedButton(
                 title: 'Register',
-                onTap: () {},
+                onTap: () async {
+                  try {
+                    final newUser = await _auth.createUserWithEmailAndPassword(
+                        email: email, password: password);
+                    if (newUser != null) {
+                      Navigator.pushNamed(context, ChatScreen.id);
+                    }
+                  } catch (e) {
+                    print(e);
+                  }
+                },
                 gradientColors: [
                   Colors.pink,
                   Colors.purpleAccent,

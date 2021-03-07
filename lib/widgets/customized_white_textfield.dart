@@ -7,12 +7,14 @@ class CustomizedWhiteTextField extends StatelessWidget {
     @required this.onChanged,
     this.icon,
     this.obscureText,
+    this.keyboardType,
   });
 
   final String hintText;
   final void Function(String) onChanged;
   final Widget icon;
   final bool obscureText;
+  final TextInputType keyboardType;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,7 @@ class CustomizedWhiteTextField extends StatelessWidget {
           ],
         ),
         child: TextField(
+          keyboardType: keyboardType ?? TextInputType.text,
           obscureText: obscureText ?? false,
           onChanged: onChanged,
           style: TextStyle(
