@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vip_chat_app/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:vip_chat_app/screens/welcome_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatScreen extends StatefulWidget {
   static const String id = 'chat_screen';
@@ -11,8 +12,10 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
-  User loggedInUser;
+  User _loggedInUser;
+  String _messageText;
 
   void initState() {
     super.initState();
@@ -23,12 +26,20 @@ class _ChatScreenState extends State<ChatScreen> {
     try {
       final user = _auth.currentUser;
       if (user != null) {
-        loggedInUser = user;
-        print(loggedInUser.email);
+        _loggedInUser = user;
+        print(_loggedInUser.email);
       }
     } catch (e) {
       print(e);
     }
+  }
+
+  void messageStream() async {
+    await _firestore.collection('messages').snapshots().forEach((snapshot) {
+      for (var message in snapshot.docs) {
+        print(message.data());
+      }
+    });
   }
 
   @override
@@ -44,9 +55,10 @@ class _ChatScreenState extends State<ChatScreen> {
               color: Colors.black,
               icon: Icon(Icons.close),
               onPressed: () {
-                _auth.signOut(); //logo
-                Navigator.pop(context);
-                Navigator.pushNamed(context, WelcomeScreen.id); // ut
+                messageStream();
+                // _auth.signOut(); //logo
+                // Navigator.pop(context);
+                // Navigator.pushNamed(context, WelcomeScreen.id); // ut
               }),
         ],
         title: Text(
@@ -71,18 +83,22 @@ class _ChatScreenState extends State<ChatScreen> {
                   Expanded(
                     child: TextField(
                       style: TextStyle(
+                        color: Colors.white,
                         fontFamily: kFontSourceSansPro,
                         fontWeight: FontWeight.normal,
                       ),
                       onChanged: (value) {
-                        //user input.
+                        _messageText = value;
                       },
                       decoration: kMessageTextFieldDecoration,
                     ),
                   ),
                   TextButton(
                     onPressed: () {
-                      //send
+                      _firestore.collection('messages').add({
+                        'text': _messageText,
+                        'sender': _loggedInUser.email,
+                      });
                     },
                     child: Text(
                       'Send',

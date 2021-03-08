@@ -22,33 +22,33 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
   final _auth = FirebaseAuth.instance;
   bool _showSpinner = false;
-  AnimationController controller;
-  Animation animation;
-  Animation curvedAnimation;
+  AnimationController _controller;
+  Animation _animation;
+  Animation _curvedAnimation;
 
   @override
   void initState() {
     super.initState();
 
-    controller = AnimationController(
+    _controller = AnimationController(
       duration: Duration(seconds: 2),
       vsync: this,
     );
-    curvedAnimation =
-        CurvedAnimation(parent: controller, curve: Curves.easeInQuad);
-    animation = DecorationTween(
+    _curvedAnimation =
+        CurvedAnimation(parent: _controller, curve: Curves.easeInQuad);
+    _animation = DecorationTween(
             begin: kBodyBackgroundContainerDecorationReverse,
             end: kBodyBackgroundContainerDecoration)
-        .animate(controller);
-    controller.forward();
-    controller.addListener(() {
+        .animate(_controller);
+    _controller.forward();
+    _controller.addListener(() {
       setState(() {});
     });
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -104,7 +104,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
         inAsyncCall: _showSpinner,
         child: Container(
           width: double.infinity,
-          decoration: animation.value,
+          decoration: _animation.value,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 24.0),
             child: Center(
@@ -114,8 +114,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   Hero(
                     tag: 'logo',
                     child: Container(
-                      width: curvedAnimation.value * 70.0,
-                      height: curvedAnimation.value * 70.0,
+                      width: _curvedAnimation.value * 70.0,
+                      height: _curvedAnimation.value * 70.0,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage('images/logo.png'),
