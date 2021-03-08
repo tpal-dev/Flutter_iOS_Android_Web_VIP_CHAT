@@ -1,12 +1,15 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vip_chat_app/constants.dart';
+import 'package:vip_chat_app/screens/chat_screen.dart';
 import 'package:vip_chat_app/widgets/customized_big_animated_button.dart';
 import 'package:vip_chat_app/widgets/customized_text_button.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:vip_chat_app/screens/login_screen.dart';
 import 'package:vip_chat_app/screens/registration_screen.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome_screen';
@@ -17,6 +20,8 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
+  final _auth = FirebaseAuth.instance;
+  bool _showSpinner = false;
   AnimationController controller;
   Animation animation;
   Animation curvedAnimation;
@@ -95,63 +100,80 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Container(
-        width: double.infinity,
-        decoration: animation.value,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.0),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Hero(
-                  tag: 'logo',
-                  child: Container(
-                    width: curvedAnimation.value * 70.0,
-                    height: curvedAnimation.value * 70.0,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('images/logo.png'),
-                        fit: BoxFit.cover,
+      body: ModalProgressHUD(
+        inAsyncCall: _showSpinner,
+        child: Container(
+          width: double.infinity,
+          decoration: animation.value,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24.0),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Hero(
+                    tag: 'logo',
+                    child: Container(
+                      width: curvedAnimation.value * 70.0,
+                      height: curvedAnimation.value * 70.0,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('images/logo.png'),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                getLogo(),
-                SizedBox(height: 40.0),
-                CustomizedBigAnimatedButton(
-                  title: 'Log In',
-                  onTap: () {
-                    Navigator.pushNamed(context, LoginScreen.id);
-                  },
-                  gradientColors: [
-                    Colors.pink,
-                    Colors.purpleAccent,
-                  ],
-                ),
-                CustomizedBigAnimatedButton(
-                  title: 'Register',
-                  onTap: () {
-                    Navigator.pushNamed(context, RegistrationScreen.id);
-                  },
-                  gradientColors: [
-                    Colors.deepPurpleAccent,
-                    Colors.teal,
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Text('- OR -'),
-                ),
-                CustomizedTextButton(
-                  title: 'TRY DEMO MODE',
-                  onPressed: () {
-                    print('demo button pressed');
-                  },
-                  fontFamily: kFontSourceSansPro,
-                  fontWeight: FontWeight.bold,
-                ),
-              ],
+                  getLogo(),
+                  SizedBox(height: 40.0),
+                  CustomizedBigAnimatedButton(
+                    title: 'Log In',
+                    onTap: () {
+                      Navigator.pushNamed(context, LoginScreen.id);
+                    },
+                    gradientColors: [
+                      Colors.pink,
+                      Colors.purpleAccent,
+                    ],
+                  ),
+                  CustomizedBigAnimatedButton(
+                    title: 'Register',
+                    onTap: () {
+                      Navigator.pushNamed(context, RegistrationScreen.id);
+                    },
+                    gradientColors: [
+                      Colors.deepPurpleAccent,
+                      Colors.teal,
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: Text('- OR TRY -'),
+                  ),
+                  CustomizedTextButton(
+                    title: 'as an Anonymous User',
+                    onPressed: () async {
+                      setState(() {
+                        _showSpinner = true;
+                      });
+                      try {
+                        final testUser = await _auth.signInWithEmailAndPassword(
+                            email: 'test@gmail.com', password: '123456');
+                        if (testUser != null) {
+                          Navigator.pushNamed(context, ChatScreen.id);
+                        }
+                        setState(() {
+                          _showSpinner = false;
+                        });
+                      } catch (e) {
+                        print(e);
+                      }
+                    },
+                    fontFamily: kFontSourceSansPro,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

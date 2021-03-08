@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vip_chat_app/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:vip_chat_app/screens/welcome_screen.dart';
 
 class ChatScreen extends StatefulWidget {
   static const String id = 'chat_screen';
@@ -34,13 +35,18 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
         leading: null,
         actions: <Widget>[
           IconButton(
               color: Colors.black,
               icon: Icon(Icons.close),
               onPressed: () {
-                //logout
+                _auth.signOut(); //logo
+                Navigator.pop(context);
+                Navigator.pushNamed(context, WelcomeScreen.id); // ut
               }),
         ],
         title: Text(

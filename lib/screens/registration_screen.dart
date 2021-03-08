@@ -8,6 +8,7 @@ import 'package:vip_chat_app/widgets/customized_icon_animated_button.dart';
 import 'package:vip_chat_app/widgets/customized_medium_animated_button.dart';
 import 'package:vip_chat_app/widgets/customized_white_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const String id = 'registration_screen';
@@ -18,8 +19,9 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _auth = FirebaseAuth.instance;
-  String email;
-  String password;
+  bool _showSpinner = false;
+  String _email;
+  String _password;
 
   Widget _buildSignIpBtn() {
     return GestureDetector(
@@ -56,96 +58,106 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Container(
-        width: double.infinity,
-        decoration: kBodyBackgroundContainerDecoration,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Hero(
-                tag: 'logo',
-                child: Container(
-                  height: 70.0,
-                  child: Image.asset('images/logo.png'),
+      body: ModalProgressHUD(
+        inAsyncCall: _showSpinner,
+        child: Container(
+          width: double.infinity,
+          decoration: kBodyBackgroundContainerDecoration,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Hero(
+                  tag: 'logo',
+                  child: Container(
+                    height: 70.0,
+                    child: Image.asset('images/logo.png'),
+                  ),
                 ),
-              ),
-              SizedBox(height: 20.0),
-              CustomizedWhiteTextField(
-                icon: Icon(
-                  Icons.person,
-                  color: Colors.black45,
+                SizedBox(height: 20.0),
+                CustomizedWhiteTextField(
+                  icon: Icon(
+                    Icons.person,
+                    color: Colors.black45,
+                  ),
+                  hintText: 'Enter your nick',
+                  onChanged: (value) {},
                 ),
-                hintText: 'Enter your nick',
-                onChanged: (value) {},
-              ),
-              CustomizedWhiteTextField(
-                keyboardType: TextInputType.emailAddress,
-                icon: Icon(
-                  Icons.email,
-                  color: Colors.black45,
+                CustomizedWhiteTextField(
+                  keyboardType: TextInputType.emailAddress,
+                  icon: Icon(
+                    Icons.email,
+                    color: Colors.black45,
+                  ),
+                  hintText: 'Enter your e-mail',
+                  onChanged: (value) {
+                    _email = value;
+                  },
                 ),
-                hintText: 'Enter your e-mail',
-                onChanged: (value) {
-                  email = value;
-                },
-              ),
-              CustomizedWhiteTextField(
-                icon: Icon(
-                  Icons.lock,
-                  color: Colors.black45,
+                CustomizedWhiteTextField(
+                  icon: Icon(
+                    Icons.lock,
+                    color: Colors.black45,
+                  ),
+                  obscureText: true,
+                  hintText: 'Enter your password',
+                  onChanged: (value) {
+                    _password = value;
+                  },
                 ),
-                obscureText: true,
-                hintText: 'Enter your password',
-                onChanged: (value) {
-                  password = value;
-                },
-              ),
-              CustomizedWhiteTextField(
-                icon: Icon(
-                  Icons.lock_outline,
-                  color: Colors.black45,
+                CustomizedWhiteTextField(
+                  icon: Icon(
+                    Icons.lock_outline,
+                    color: Colors.black45,
+                  ),
+                  obscureText: true,
+                  hintText: 'Confirm your password',
+                  onChanged: (value) {},
                 ),
-                obscureText: true,
-                hintText: 'Confirm your password',
-                onChanged: (value) {},
-              ),
-              SizedBox(height: 19.0),
-              CustomizedMediumAnimatedButton(
-                title: 'Register',
-                onTap: () async {
-                  try {
-                    final newUser = await _auth.createUserWithEmailAndPassword(
-                        email: email, password: password);
-                    if (newUser != null) {
-                      Navigator.pushNamed(context, ChatScreen.id);
+                SizedBox(height: 19.0),
+                CustomizedMediumAnimatedButton(
+                  title: 'Register',
+                  onTap: () async {
+                    setState(() {
+                      _showSpinner = true;
+                    });
+                    try {
+                      final newUser =
+                          await _auth.createUserWithEmailAndPassword(
+                              email: _email, password: _password);
+                      if (newUser != null) {
+                        Navigator.pushNamed(context, ChatScreen.id);
+                      }
+                      setState(() {
+                        _showSpinner = false;
+                      });
+                    } catch (e) {
+                      print(e);
                     }
-                  } catch (e) {
-                    print(e);
-                  }
-                },
-                gradientColors: [
-                  Colors.pink,
-                  Colors.purpleAccent,
-                ],
-              ),
-              Text('or use'),
-              CustomizedIconAnimatedButton(
-                title: 'Facebook',
-                onTap: () {},
-                gradientColors: [
-                  Colors.indigoAccent.shade400,
-                  Colors.lightBlue,
-                ],
-                icon: FaIcon(
-                  FontAwesomeIcons.facebook,
-                  color: Colors.black,
+                  },
+                  gradientColors: [
+                    Colors.pink,
+                    Colors.purpleAccent,
+                  ],
                 ),
-              ),
-              SizedBox(height: 50.0),
-              _buildSignIpBtn(),
-            ],
+                Text('or use'),
+                CustomizedIconAnimatedButton(
+                  title: 'Facebook',
+                  onTap: () {},
+                  gradientColors: [
+                    Colors.indigoAccent.shade400,
+                    Colors.lightBlue,
+                  ],
+                  icon: FaIcon(
+                    FontAwesomeIcons.facebook,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(height: 50.0),
+                _buildSignIpBtn(),
+              ],
+            ),
           ),
         ),
       ),
