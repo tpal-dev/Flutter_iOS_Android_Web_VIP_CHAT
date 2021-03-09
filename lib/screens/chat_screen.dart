@@ -55,10 +55,9 @@ class _ChatScreenState extends State<ChatScreen> {
               color: Colors.black,
               icon: Icon(Icons.close),
               onPressed: () {
-                messageStream();
-                // _auth.signOut(); //logo
-                // Navigator.pop(context);
-                // Navigator.pushNamed(context, WelcomeScreen.id); // ut
+                _auth.signOut();
+                Navigator.pop(context);
+                Navigator.pushNamed(context, WelcomeScreen.id);
               }),
         ],
         title: Text(
@@ -75,6 +74,38 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            StreamBuilder<QuerySnapshot>(
+              stream: _firestore.collection('messages').snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.lightBlue,
+                    ),
+                  );
+                }
+                if (snapshot.hasData) {
+                  final messages = snapshot.data.docs;
+                  List<Text> messagesWidgets = [];
+                  for (var message in messages) {
+                    final messageText = message.data()['text'];
+                    final messageSender = message.data()['sender'];
+                    final messageWidget =
+                        Text('$messageText from $messageSender');
+                    messagesWidgets.add(messageWidget);
+                  }
+                  return Expanded(
+                    child: ListView(
+                      children: messagesWidgets,
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error.toString()}');
+                } else {
+                  return Text('unknown problem with database');
+                }
+              },
+            ),
             Container(
               decoration: kMessageContainerDecoration,
               child: Row(
