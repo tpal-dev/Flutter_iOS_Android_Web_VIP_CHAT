@@ -35,6 +35,7 @@ dependencies:
   firebase_auth: ^1.0.0
   cloud_firestore: ^1.0.0
   modal_progress_hud: ^0.1.3
+  keyboard_dismisser: ^2.0.0
 
 dev_dependencies:
   flutter_test:
