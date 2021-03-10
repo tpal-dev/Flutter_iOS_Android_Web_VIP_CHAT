@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: TextStyle(
                   color: Colors.blue,
                   fontSize: 13.0,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],
@@ -70,11 +70,13 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Hero(
-                  tag: 'logo',
-                  child: Container(
-                    height: 70.0,
-                    child: Image.asset('images/logo.png'),
+                Flexible(
+                  child: Hero(
+                    tag: 'logo',
+                    child: Container(
+                      height: 70.0,
+                      child: Image.asset('images/logo.png'),
+                    ),
                   ),
                 ),
                 SizedBox(height: 27.0),
@@ -109,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       title: 'Forgot Password?',
                       onPressed: () {},
                       fontSize: 13,
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
@@ -124,7 +126,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       final newUser = await _auth.signInWithEmailAndPassword(
                           email: _email, password: _password);
                       if (newUser != null) {
-                        Navigator.pushNamed(context, ChatScreen.id);
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, ChatScreen.id, (route) => false);
                       }
                       setState(() {
                         _showSpinner = false;

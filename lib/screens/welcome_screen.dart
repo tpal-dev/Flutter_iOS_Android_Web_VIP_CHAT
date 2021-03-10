@@ -8,7 +8,6 @@ import 'package:vip_chat_app/widgets/customized_big_animated_button.dart';
 import 'package:vip_chat_app/widgets/customized_text_button.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:vip_chat_app/screens/login_screen.dart';
-import 'package:vip_chat_app/screens/registration_screen.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -66,10 +65,10 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             '  CHAT',
           ],
           textStyle: TextStyle(
-            fontSize: 40.0,
-            fontFamily: kFontBungeeShade,
-            fontWeight: FontWeight.bold,
-          ),
+              fontSize: 40.0,
+              fontFamily: kFontBungeeShade,
+              fontWeight: FontWeight.bold,
+              color: Colors.black),
           textAlign: TextAlign.start,
         ),
       );
@@ -139,7 +138,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   CustomizedBigAnimatedButton(
                     title: 'Register',
                     onTap: () {
-                      Navigator.pushNamed(context, RegistrationScreen.id);
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, ChatScreen.id, (route) => false);
                     },
                     gradientColors: [
                       Colors.deepPurpleAccent,

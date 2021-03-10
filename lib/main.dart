@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'screens/chat_screen.dart';
 import 'screens/login_screen.dart';
@@ -17,6 +18,8 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+  final _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return KeyboardDismisser(
@@ -31,7 +34,8 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.normal),
           ),
         ),
-        initialRoute: WelcomeScreen.id,
+        initialRoute:
+            _auth.currentUser != null ? ChatScreen.id : WelcomeScreen.id,
         routes: {
           WelcomeScreen.id: (context) => WelcomeScreen(),
           LoginScreen.id: (context) => LoginScreen(),
