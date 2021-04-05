@@ -24,25 +24,72 @@ class _AuthScreenState extends State<AuthScreen> {
   final _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
   bool _showSpinner = false;
-  bool _isLogin;
+  bool _isLoginMode;
   String _userName;
   String _email;
   String _password;
 
-  void _trySubmit() {
+  Future<void> _trySubmit() async {
     final isValid = _formKey.currentState.validate();
+    FocusScope.of(context).unfocus();
+
     if (isValid) {
+      setState(() {
+        _showSpinner = true;
+      });
       _formKey.currentState.save();
-      FocusScope.of(context).unfocus();
-      print(_email);
-      print(_password);
+      await _submitAuthForm();
+      setState(() {
+        _showSpinner = false;
+      });
+    }
+  }
+
+  Future<void> _submitAuthForm() async {
+    UserCredential authResult;
+
+    try {
+      if (_isLoginMode) {
+        authResult = await _auth.signInWithEmailAndPassword(
+            email: _email.trim(), password: _password.trim());
+        if (authResult != null) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, ChatScreen.id, (route) => false);
+        }
+      } else {
+        final authResult = await _auth.createUserWithEmailAndPassword(
+            email: _email.trim(), password: _password.trim());
+        if (authResult != null) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, ChatScreen.id, (route) => false);
+        }
+      }
+    } on FirebaseAuthException catch (e) {
+      var errorMessage = 'An error occurred. Please check your credentials.';
+      if (e.message != null) {
+        errorMessage = e.message;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            errorMessage,
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          backgroundColor: Theme.of(context).errorColor,
+          duration: Duration(seconds: 5),
+        ),
+      );
+    } catch (e) {
+      print(e);
     }
   }
 
   @override
   void initState() {
     super.initState();
-    _isLogin = widget.isLogin;
+    _isLoginMode = widget.isLogin;
   }
 
   @override
@@ -69,61 +116,16 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
                 SizedBox(height: 20.0),
                 _buildForm(),
-                if (_isLogin) _buildForgotPasswordBtn(),
+                if (_isLoginMode) _buildForgotPasswordBtn(),
                 SizedBox(height: 19.0),
-                if (_isLogin)
-                  CustomizedMediumAnimatedButton(
-                    title: 'Log In',
-                    onTap: () async {
-                      setState(() {
-                        _showSpinner = true;
-                      });
-                      try {
-                        final newUser = await _auth.signInWithEmailAndPassword(
-                            email: _email, password: _password);
-                        if (newUser != null) {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, ChatScreen.id, (route) => false);
-                        }
-                        setState(() {
-                          _showSpinner = false;
-                        });
-                      } catch (e) {
-                        print(e);
-                      }
-                    },
-                    gradientColors: [
-                      Colors.pink,
-                      Colors.purpleAccent,
-                    ],
-                  ),
-                if (!_isLogin)
-                  CustomizedMediumAnimatedButton(
-                    title: 'Register',
-                    onTap: () async {
-                      setState(() {
-                        _showSpinner = true;
-                      });
-                      try {
-                        final newUser =
-                            await _auth.createUserWithEmailAndPassword(
-                                email: _email, password: _password);
-                        if (newUser != null) {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, ChatScreen.id, (route) => false);
-                        }
-                        setState(() {
-                          _showSpinner = false;
-                        });
-                      } catch (e) {
-                        print(e);
-                      }
-                    },
-                    gradientColors: [
-                      Colors.pink,
-                      Colors.purpleAccent,
-                    ],
-                  ),
+                CustomizedMediumAnimatedButton(
+                  title: (_isLoginMode ? 'Log in' : 'Register'),
+                  onTap: _trySubmit,
+                  gradientColors: [
+                    Colors.pink,
+                    Colors.purpleAccent,
+                  ],
+                ),
                 Text('or use'),
                 CustomizedIconAnimatedButton(
                   title: 'Facebook',
@@ -152,8 +154,9 @@ class _AuthScreenState extends State<AuthScreen> {
       key: _formKey,
       child: Column(
         children: [
-          if (!_isLogin)
+          if (!_isLoginMode)
             CustomizedWhiteTextField(
+              key: ValueKey('name'),
               icon: Icon(
                 Icons.person,
                 color: Colors.black45,
@@ -165,6 +168,7 @@ class _AuthScreenState extends State<AuthScreen> {
               onChanged: (value) {},
             ),
           CustomizedWhiteTextField(
+            key: ValueKey('email'),
             keyboardType: TextInputType.emailAddress,
             icon: Icon(
               Icons.email,
@@ -183,6 +187,7 @@ class _AuthScreenState extends State<AuthScreen> {
             },
           ),
           CustomizedWhiteTextField(
+            key: ValueKey('password'),
             icon: Icon(
               Icons.lock,
               color: Colors.black45,
@@ -221,8 +226,8 @@ class _AuthScreenState extends State<AuthScreen> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          _isLogin = !_isLogin;
-          print(_isLogin);
+          _isLoginMode = !_isLoginMode;
+          print(_isLoginMode);
         });
       },
       child: MouseRegion(
@@ -231,7 +236,7 @@ class _AuthScreenState extends State<AuthScreen> {
           text: TextSpan(
             children: [
               TextSpan(
-                text: (_isLogin
+                text: (_isLoginMode
                     ? 'Don\'t have an Account? '
                     : 'Already have an Account? '),
                 style: TextStyle(
@@ -241,7 +246,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
               ),
               TextSpan(
-                text: (_isLogin ? 'Sign up' : 'Sign In'),
+                text: (_isLoginMode ? 'Sign up' : 'Sign In'),
                 style: TextStyle(
                   color: Colors.blue,
                   fontSize: 13.0,

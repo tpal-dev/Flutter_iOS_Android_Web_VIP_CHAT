@@ -11,6 +11,7 @@ class CustomizedWhiteTextField extends StatelessWidget {
     this.validator,
     this.controller,
     this.onSaved,
+    this.key,
   });
 
   final String hintText;
@@ -21,6 +22,7 @@ class CustomizedWhiteTextField extends StatelessWidget {
   final Function(String) validator;
   final TextEditingController controller;
   final Function(String) onSaved;
+  final ValueKey key;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,7 @@ class CustomizedWhiteTextField extends StatelessWidget {
           ],
         ),
         child: TextFormField(
+          key: key ?? null,
           onSaved: onSaved ?? null,
           controller: controller ?? null,
           validator: validator ?? null,
