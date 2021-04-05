@@ -4,6 +4,7 @@ import 'package:vip_chat_app/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:vip_chat_app/screens/welcome_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 
 final _firestore = FirebaseFirestore.instance;
 User _loggedInUser;
@@ -16,6 +17,8 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  // int _selectedBottomBarItemPosition = 0;
+
   final messageTextController = TextEditingController();
   final _auth = FirebaseAuth.instance;
   DateTime _now;
@@ -123,6 +126,41 @@ class _ChatScreenState extends State<ChatScreen> {
           ],
         ),
       ),
+      // bottomNavigationBar: SnakeNavigationBar.color(
+      //   behaviour: SnakeBarBehaviour.pinned,
+      //   snakeShape: SnakeShape.circle,
+      //   shape: RoundedRectangleBorder(
+      //     borderRadius: const BorderRadius.only(
+      //       topLeft: Radius.circular(25),
+      //       topRight: Radius.circular(25),
+      //     ),
+      //   ),
+      //   padding: EdgeInsets.zero,
+      //
+      //   ///configuration for SnakeNavigationBar.color
+      //   snakeViewColor: Colors.lightBlueAccent,
+      //   selectedItemColor: SnakeShape.circle == SnakeShape.indicator
+      //       ? Colors.lightBlueAccent
+      //       : null,
+      //   unselectedItemColor: Colors.black26,
+      //
+      //   showUnselectedLabels: false,
+      //   showSelectedLabels: false,
+      //
+      //   currentIndex: _selectedBottomBarItemPosition,
+      //   onTap: (index) =>
+      //       setState(() => _selectedBottomBarItemPosition = index),
+      //   items: [
+      //     const BottomNavigationBarItem(
+      //         icon: Icon(Icons.group), label: 'tickets'),
+      //     const BottomNavigationBarItem(
+      //         icon: Icon(Icons.animation), label: 'tickets'),
+      //     const BottomNavigationBarItem(
+      //         icon: Icon(Icons.list), label: 'tickets'),
+      //   ],
+      //   selectedLabelStyle: const TextStyle(fontSize: 14),
+      //   unselectedLabelStyle: const TextStyle(fontSize: 10),
+      // ),
     );
   }
 }

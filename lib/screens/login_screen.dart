@@ -24,37 +24,6 @@ class _LoginScreenState extends State<LoginScreen> {
   String _email;
   String _password;
 
-  Widget _buildSignUpBtn() {
-    return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, RegistrationScreen.id),
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: 'Don\'t have an Account? ',
-                style: TextStyle(
-                  color: Colors.black45,
-                  fontSize: 13.0,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              TextSpan(
-                text: 'Sign Up',
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 13.0,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,23 +67,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   obscureText: true,
                   hintText: 'Enter your password',
+                  validator: (val) {
+                    return val.length > 6
+                        ? null
+                        : "Enter Password 6+ characters";
+                  },
                   onChanged: (value) {
                     _password = value;
                   },
                 ),
-                Container(
-                  alignment: Alignment.centerRight,
-                  constraints: BoxConstraints(maxWidth: 400.0),
-                  child: Container(
-                    padding: EdgeInsets.only(right: 10.0),
-                    child: CustomizedTextButton(
-                      title: 'Forgot Password?',
-                      onPressed: () {},
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
+                _buildForgotPasswordBtn(),
                 SizedBox(height: 10.0),
                 CustomizedMediumAnimatedButton(
                   title: 'Log In',
@@ -158,6 +120,53 @@ class _LoginScreenState extends State<LoginScreen> {
                 _buildSignUpBtn(),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildForgotPasswordBtn() {
+    return Container(
+      alignment: Alignment.centerRight,
+      constraints: BoxConstraints(maxWidth: 400.0),
+      child: Container(
+        padding: EdgeInsets.only(right: 10.0),
+        child: CustomizedTextButton(
+          title: 'Forgot Password?',
+          onPressed: () {},
+          fontSize: 13,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSignUpBtn() {
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, RegistrationScreen.id),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: 'Don\'t have an Account? ',
+                style: TextStyle(
+                  color: Colors.black45,
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              TextSpan(
+                text: 'Sign Up',
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
           ),
         ),
       ),

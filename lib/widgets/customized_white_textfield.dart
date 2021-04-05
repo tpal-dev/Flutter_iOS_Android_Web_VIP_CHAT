@@ -4,10 +4,13 @@ import 'package:vip_chat_app/constants.dart';
 class CustomizedWhiteTextField extends StatelessWidget {
   CustomizedWhiteTextField({
     @required this.hintText,
-    @required this.onChanged,
+    this.onChanged,
     this.icon,
     this.obscureText,
     this.keyboardType,
+    this.validator,
+    this.controller,
+    this.onSaved,
   });
 
   final String hintText;
@@ -15,6 +18,9 @@ class CustomizedWhiteTextField extends StatelessWidget {
   final Widget icon;
   final bool obscureText;
   final TextInputType keyboardType;
+  final Function(String) validator;
+  final TextEditingController controller;
+  final Function(String) onSaved;
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +38,31 @@ class CustomizedWhiteTextField extends StatelessWidget {
             ),
           ],
         ),
-        child: TextField(
+        child: TextFormField(
+          onSaved: onSaved ?? null,
+          controller: controller ?? null,
+          validator: validator ?? null,
           keyboardType: keyboardType ?? TextInputType.text,
           obscureText: obscureText ?? false,
-          onChanged: onChanged,
+          onChanged: onChanged ?? null,
           style: TextStyle(
             color: Colors.black,
           ),
           decoration: InputDecoration(
+            errorStyle: TextStyle(
+              fontFamily: kFontSourceSansPro,
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+              color: Colors.white,
+            ),
+            errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.red.shade300, width: 3.0),
+              borderRadius: BorderRadius.all(Radius.circular(32.0)),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.red.shade300, width: 3.0),
+              borderRadius: BorderRadius.all(Radius.circular(32.0)),
+            ),
             prefixIcon: icon ?? null,
             filled: true,
             fillColor: Colors.white,

@@ -20,38 +20,19 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _auth = FirebaseAuth.instance;
   bool _showSpinner = false;
+
   String _email;
   String _password;
+  final _formKey = GlobalKey<FormState>();
 
-  Widget _buildSignIpBtn() {
-    return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, LoginScreen.id),
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: 'Already have an Account? ',
-                style: TextStyle(
-                  color: Colors.black45,
-                  fontSize: 13.0,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              TextSpan(
-                text: 'Sign In',
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 13.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  void _trySubmit() {
+    final isValid = _formKey.currentState.validate();
+    if (isValid) {
+      _formKey.currentState.save();
+      FocusScope.of(context).unfocus();
+      print(_email);
+      print(_password);
+    }
   }
 
   @override
@@ -77,45 +58,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ),
                 ),
                 SizedBox(height: 20.0),
-                CustomizedWhiteTextField(
-                  icon: Icon(
-                    Icons.person,
-                    color: Colors.black45,
-                  ),
-                  hintText: 'Enter your nick',
-                  onChanged: (value) {},
-                ),
-                CustomizedWhiteTextField(
-                  keyboardType: TextInputType.emailAddress,
-                  icon: Icon(
-                    Icons.email,
-                    color: Colors.black45,
-                  ),
-                  hintText: 'Enter your e-mail',
-                  onChanged: (value) {
-                    _email = value;
-                  },
-                ),
-                CustomizedWhiteTextField(
-                  icon: Icon(
-                    Icons.lock,
-                    color: Colors.black45,
-                  ),
-                  obscureText: true,
-                  hintText: 'Enter your password',
-                  onChanged: (value) {
-                    _password = value;
-                  },
-                ),
-                CustomizedWhiteTextField(
-                  icon: Icon(
-                    Icons.lock_outline,
-                    color: Colors.black45,
-                  ),
-                  obscureText: true,
-                  hintText: 'Confirm your password',
-                  onChanged: (value) {},
-                ),
+                _buildForm(),
                 SizedBox(height: 19.0),
                 CustomizedMediumAnimatedButton(
                   title: 'Register',
@@ -160,6 +103,99 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 _buildSignIpBtn(),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildForm() {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          CustomizedWhiteTextField(
+            icon: Icon(
+              Icons.person,
+              color: Colors.black45,
+            ),
+            hintText: 'Enter your nick',
+            validator: (val) {
+              return val.length > 3 ? null : "Enter 3+ characters";
+            },
+            onChanged: (value) {},
+          ),
+          CustomizedWhiteTextField(
+            keyboardType: TextInputType.emailAddress,
+            icon: Icon(
+              Icons.email,
+              color: Colors.black45,
+            ),
+            hintText: 'Enter your e-mail',
+            validator: (val) {
+              return RegExp(
+                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(val)
+                  ? null
+                  : "Please Enter Correct Email";
+            },
+            onChanged: (value) {
+              _email = value;
+            },
+          ),
+          CustomizedWhiteTextField(
+            icon: Icon(
+              Icons.lock,
+              color: Colors.black45,
+            ),
+            obscureText: true,
+            hintText: 'Enter your password',
+            validator: (val) {
+              return val.length > 6 ? null : "Enter Password 6+ characters";
+            },
+            onChanged: (value) {
+              _password = value;
+            },
+          ),
+          // CustomizedWhiteTextField(
+          //   icon: Icon(
+          //     Icons.lock_outline,
+          //     color: Colors.black45,
+          //   ),
+          //   obscureText: true,
+          //   hintText: 'Confirm your password',
+          //   onChanged: (value) {},
+          // ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSignIpBtn() {
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, LoginScreen.id),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: 'Already have an Account? ',
+                style: TextStyle(
+                  color: Colors.black45,
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              TextSpan(
+                text: 'Sign In',
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
         ),
       ),
