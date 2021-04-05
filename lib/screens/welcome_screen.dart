@@ -7,8 +7,9 @@ import 'package:vip_chat_app/screens/chat_screen.dart';
 import 'package:vip_chat_app/widgets/customized_big_animated_button.dart';
 import 'package:vip_chat_app/widgets/customized_text_button.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:vip_chat_app/screens/login_screen.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+
+import 'auth_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome_screen';
@@ -128,7 +129,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   CustomizedBigAnimatedButton(
                     title: 'Log In',
                     onTap: () {
-                      Navigator.pushNamed(context, LoginScreen.id);
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return AuthScreen(
+                          isLogin: true,
+                        );
+                      }));
                     },
                     gradientColors: [
                       Colors.pink,
@@ -138,8 +144,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   CustomizedBigAnimatedButton(
                     title: 'Register',
                     onTap: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, ChatScreen.id, (route) => false);
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return AuthScreen(
+                          isLogin: false,
+                        );
+                      }));
                     },
                     gradientColors: [
                       Colors.deepPurpleAccent,

@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'screens/chat_screen.dart';
-import 'screens/login_screen.dart';
-import 'screens/registration_screen.dart';
+import 'screens/auth_screen.dart';
 import 'screens/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
@@ -38,8 +37,7 @@ class MyApp extends StatelessWidget {
             _auth.currentUser != null ? ChatScreen.id : WelcomeScreen.id,
         routes: {
           WelcomeScreen.id: (context) => WelcomeScreen(),
-          LoginScreen.id: (context) => LoginScreen(),
-          RegistrationScreen.id: (context) => RegistrationScreen(),
+          AuthScreen.id: (context) => AuthScreen(),
           ChatScreen.id: (context) => ChatScreen(),
         },
       ),

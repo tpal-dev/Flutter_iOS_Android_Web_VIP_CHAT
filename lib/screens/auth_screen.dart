@@ -3,27 +3,31 @@ import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:vip_chat_app/constants.dart';
 import 'package:vip_chat_app/screens/chat_screen.dart';
-import 'package:vip_chat_app/screens/login_screen.dart';
 import 'package:vip_chat_app/widgets/customized_icon_animated_button.dart';
 import 'package:vip_chat_app/widgets/customized_medium_animated_button.dart';
+import 'package:vip_chat_app/widgets/customized_text_button.dart';
 import 'package:vip_chat_app/widgets/customized_white_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-class RegistrationScreen extends StatefulWidget {
-  static const String id = 'registration_screen';
+class AuthScreen extends StatefulWidget {
+  static const String id = 'auth_screen';
+
+  const AuthScreen({Key key, this.isLogin}) : super(key: key);
+  final bool isLogin;
 
   @override
-  _RegistrationScreenState createState() => _RegistrationScreenState();
+  _AuthScreenState createState() => _AuthScreenState();
 }
 
-class _RegistrationScreenState extends State<RegistrationScreen> {
+class _AuthScreenState extends State<AuthScreen> {
   final _auth = FirebaseAuth.instance;
+  final _formKey = GlobalKey<FormState>();
   bool _showSpinner = false;
-
+  bool _isLogin;
+  String _userName;
   String _email;
   String _password;
-  final _formKey = GlobalKey<FormState>();
 
   void _trySubmit() {
     final isValid = _formKey.currentState.validate();
@@ -33,6 +37,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       print(_email);
       print(_password);
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _isLogin = widget.isLogin;
   }
 
   @override
@@ -59,33 +69,61 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
                 SizedBox(height: 20.0),
                 _buildForm(),
+                if (_isLogin) _buildForgotPasswordBtn(),
                 SizedBox(height: 19.0),
-                CustomizedMediumAnimatedButton(
-                  title: 'Register',
-                  onTap: () async {
-                    setState(() {
-                      _showSpinner = true;
-                    });
-                    try {
-                      final newUser =
-                          await _auth.createUserWithEmailAndPassword(
-                              email: _email, password: _password);
-                      if (newUser != null) {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, ChatScreen.id, (route) => false);
-                      }
+                if (_isLogin)
+                  CustomizedMediumAnimatedButton(
+                    title: 'Log In',
+                    onTap: () async {
                       setState(() {
-                        _showSpinner = false;
+                        _showSpinner = true;
                       });
-                    } catch (e) {
-                      print(e);
-                    }
-                  },
-                  gradientColors: [
-                    Colors.pink,
-                    Colors.purpleAccent,
-                  ],
-                ),
+                      try {
+                        final newUser = await _auth.signInWithEmailAndPassword(
+                            email: _email, password: _password);
+                        if (newUser != null) {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, ChatScreen.id, (route) => false);
+                        }
+                        setState(() {
+                          _showSpinner = false;
+                        });
+                      } catch (e) {
+                        print(e);
+                      }
+                    },
+                    gradientColors: [
+                      Colors.pink,
+                      Colors.purpleAccent,
+                    ],
+                  ),
+                if (!_isLogin)
+                  CustomizedMediumAnimatedButton(
+                    title: 'Register',
+                    onTap: () async {
+                      setState(() {
+                        _showSpinner = true;
+                      });
+                      try {
+                        final newUser =
+                            await _auth.createUserWithEmailAndPassword(
+                                email: _email, password: _password);
+                        if (newUser != null) {
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, ChatScreen.id, (route) => false);
+                        }
+                        setState(() {
+                          _showSpinner = false;
+                        });
+                      } catch (e) {
+                        print(e);
+                      }
+                    },
+                    gradientColors: [
+                      Colors.pink,
+                      Colors.purpleAccent,
+                    ],
+                  ),
                 Text('or use'),
                 CustomizedIconAnimatedButton(
                   title: 'Facebook',
@@ -114,17 +152,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       key: _formKey,
       child: Column(
         children: [
-          CustomizedWhiteTextField(
-            icon: Icon(
-              Icons.person,
-              color: Colors.black45,
+          if (!_isLogin)
+            CustomizedWhiteTextField(
+              icon: Icon(
+                Icons.person,
+                color: Colors.black45,
+              ),
+              hintText: 'Enter your nick',
+              validator: (val) {
+                return val.length > 3 ? null : "Enter 3+ characters";
+              },
+              onChanged: (value) {},
             ),
-            hintText: 'Enter your nick',
-            validator: (val) {
-              return val.length > 3 ? null : "Enter 3+ characters";
-            },
-            onChanged: (value) {},
-          ),
           CustomizedWhiteTextField(
             keyboardType: TextInputType.emailAddress,
             icon: Icon(
@@ -157,30 +196,44 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               _password = value;
             },
           ),
-          // CustomizedWhiteTextField(
-          //   icon: Icon(
-          //     Icons.lock_outline,
-          //     color: Colors.black45,
-          //   ),
-          //   obscureText: true,
-          //   hintText: 'Confirm your password',
-          //   onChanged: (value) {},
-          // ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildForgotPasswordBtn() {
+    return Container(
+      alignment: Alignment.centerRight,
+      constraints: BoxConstraints(maxWidth: 400.0),
+      child: Container(
+        padding: EdgeInsets.only(right: 10.0),
+        child: CustomizedTextButton(
+          title: 'Forgot Password?',
+          onPressed: () {},
+          fontSize: 13,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }
 
   Widget _buildSignIpBtn() {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, LoginScreen.id),
+      onTap: () {
+        setState(() {
+          _isLogin = !_isLogin;
+          print(_isLogin);
+        });
+      },
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: RichText(
           text: TextSpan(
             children: [
               TextSpan(
-                text: 'Already have an Account? ',
+                text: (_isLogin
+                    ? 'Don\'t have an Account? '
+                    : 'Already have an Account? '),
                 style: TextStyle(
                   color: Colors.black45,
                   fontSize: 13.0,
@@ -188,7 +241,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 ),
               ),
               TextSpan(
-                text: 'Sign In',
+                text: (_isLogin ? 'Sign up' : 'Sign In'),
                 style: TextStyle(
                   color: Colors.blue,
                   fontSize: 13.0,
