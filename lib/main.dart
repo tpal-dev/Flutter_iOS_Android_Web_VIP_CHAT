@@ -8,8 +8,6 @@ import 'screens/chat_screens/group_chat_screen.dart';
 import 'screens/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-
 import 'services/auth.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
